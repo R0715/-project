@@ -54,7 +54,7 @@ if (now_ms - line_last_sample_ms >= 10u) {
 
 ## 给电机和避障同学的接口
 
-整车工程加上 `line_follow_motor.c` 和 `line_follow_motor.h`，并让编译器能找到 `算法/motor.h` 和电机驱动实现。`line_follow_apply_motor()` 将循迹的 `0–100%` 前进请求换算为电机接口的千分比，例如 `24%` 传 `240`。正常循迹或低速找线时调用 `Motor_SetPWM(left, right)`。丢线超时、读数无法判定或两轮请求均为 0 时调用 `Motor_Stop()`。电机初始化由整车主程序在启动时调用一次 `Motor_Init()`。[小组电机接口](../../算法/README.md)
+整车工程加上 `line_follow_motor.c` 和 `line_follow_motor.h`，并让编译器能找到 `算法/motor.h` 和电机驱动实现。`line_follow_apply_motor()` 将循迹的 `0–100%` 前进请求换算为电机接口的千分比，例如 `24%` 传 `240`。正常循迹或低速找线时调用 `Motor_SetPWM(left, right)`。丢线超时、读数无法判定或两轮请求均为 0 时调用 `Motor_Stop()`。电机初始化由整车主程序在启动时调用一次 `Motor_Init()`。[小组电机接口](../README.md)
 
 整车主程序每圈先处理避障和停车，再决定是否把电机控制权交给循迹。联调时引入 `line_follow_motor.h`，用下面的逻辑替换前面示例的定时采样段。`line_follow_has_control` 由整车主程序根据当前模式和避障结果给出。避障或停车接管时，下面的代码只重置循迹状态。控制权恢复后用新采样的结果驱动电机。
 
