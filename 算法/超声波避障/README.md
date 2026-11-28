@@ -72,7 +72,7 @@ void EXTI15_10_IRQHandler(void)
 | --- | --- |
 | 测距与接线 | 保留左右每圈计数为 0，电机保持停止。在调试器看 `r08_avoidance_status()->controller.range`，用卡纸依次遮挡左、中、右探头。有效短脉冲为 `RANGE_ECHO`，有完整脉冲但距离超过 4 m 为 `RANGE_CLEAR`，无上升沿、Echo 卡高或超时为 `RANGE_FAULT`。开阔场地也要测一次，确认所购 HC-SR04 的超量程回波行为。 |
 | 电机和编码器 | 车轮架空确认左右轮正命令都对应车身前进，累计计数也都递增。每只轮转一圈，填写对应的实际计数。13 ppr、20:1、四倍频对应约 1040 计数每圈，仅供在确认计数模式时对照。轮周长初值 151 mm，轮距初值 161 mm，按负载下的行程和实车尺寸校正。 |
-| 绕行 | 先低速用 60 × 60 mm 和 150 × 100 mm 两种尺寸试左侧、右侧和正前方。V17 图示侧探头朝外约 30°，前探头朝正前。检查车轮外侧和车尾的扫掠余量。横移不足调 `diagonal_mm`，过早回线调 `clearance_run_mm`，触发偏晚按实测先降低 `cruise_mm_s` 或调大探测阈值。 |
+| 绕行 | 先低速用 60 × 60 mm 和 150 × 100 mm 两种尺寸试左侧、右侧和正前方。V18 图示侧探头朝外约 30°，前探头朝正前。检查车轮外侧和车尾的扫掠余量。横移不足调 `diagonal_mm`，过早回线调 `clearance_run_mm`，触发偏晚按实测先降低 `cruise_mm_s` 或调大探测阈值。 |
 | 停车 | 先用比赛同宽的 20 mm 横线试车。调 `finish_min_mm`，使判定在抵达终点以前启用。若停车时车头未过线，增大 `finish_roll_mm`；若车尾越线，减小它并测实际制动距离。验证 `Motor_Stop()` 在 R08 上的实际制动方式，锁存停车效果依赖该接口。|
 
 固定超声波只能采到探头覆盖的区域，车尾和大角度回转侧面有盲区。台架验证完成后还需在实际赛道确认弯中遇障、障碍物紧贴边界和斜过终点横线时的行为。调试时可查看 `r08_avoidance_status()->controller.state` 和 `stop_reason`。
@@ -86,4 +86,4 @@ gcc -std=c11 -Wall -Wextra -Wconversion -Wpedantic -Werror car_control.c car_dri
 .\test_avoidance.exe
 ```
 
-资料见 [比赛规则](../../附件1%20自动循迹避障小车比赛规则与评分标准.pdf)、[V17 车架装配图](../../车架/车架装配.png) 和 [HC-SR04 时序](https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf)。
+资料见 [比赛规则](../../附件1%20自动循迹避障小车比赛规则与评分标准.pdf)、[V18 车架装配图](../../车架/车架装配.png) 和 [HC-SR04 时序](https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf)。
